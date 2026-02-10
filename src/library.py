@@ -14,9 +14,11 @@ class Library:
     def __init__(self):
         self.books: List[Book] = []
 
-    def add_book(self, index: str, title: str, author: str):
-        self.books.append(Book(index, title, author))
-        print(f"[{index}] '{title}' 도서가 등록되었습니다.")
+    def add_book(self, idx: str, title: str, author: str):
+        if not index.find_korean_decimal_classification(idx):
+            return
+        self.books.append(Book(idx, title, author))
+        print(f"[{idx}] '{title}' 도서가 등록되었습니다.")
 
     def show_books(self):
         for book in self.books:
