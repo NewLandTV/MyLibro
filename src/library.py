@@ -1,7 +1,7 @@
 import index
 import json
 import path
-from typing import List
+from typing import List, Tuple
 
 class Book:
     def __init__(self, index: str, title: str, author: str, is_borrowed=False):
@@ -23,8 +23,12 @@ class Library:
             status = "대여중" if book.is_borrowed else "대여 가능"
             print(f"[{book.index}] 제목: {book.title}, 저자: {book.author}, 상태: {status}")
 
-    def find_book_by_index(self, idx: str):
-        return index.find_korean_decimal_classification(idx)
+    def find_book_by_index(self, idx: str)-> Tuple[str | None, List[Book]]:
+        find = []
+        for book in self.books:
+            if book.index == idx:
+                find.append(book)
+        return index.find_korean_decimal_classification(idx), find
     
     def save_data_to_local_file(self, filename="mylib.json"):
         data = []

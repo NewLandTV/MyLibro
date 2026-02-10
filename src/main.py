@@ -18,6 +18,31 @@ def add():
         elif agree.upper() == "N":
             return
         
+def find():
+    while True:
+        print("\t검색 방법을 번호로 쓰시오.")
+        print("\t1. 색인")
+        print("\t2. 제목")
+        print("\t3. 저자")
+        method = input("\t번호 입력: ")
+
+        if method.isdigit() and 1 <= int(method) <= 3:
+            method = int(method)
+            break
+
+    match method:
+        case 1:
+            index = input("\t색인: ")
+            index, books = myLibro.find_book_by_index(index)
+            if index and books:
+                print(f"\t[{index}] 찾은 도서 {len(books)}권")
+                for book in books:
+                    print(f"\t제목: {book.title}, 저자: {book.author}")
+        case 2:
+            title = input("\t도서명: ") # TODO: 도서명으로 책 찾기
+        case 3:
+            author = input("\t저자: ")  # TODO: 저자로 책 찾기
+
 def exit():
     while True:
         agree = input("\t정말로 도서관 프로그램을 종료하시겠습니까? (y/n): ")
@@ -46,7 +71,7 @@ def main():
             elif cmd == "/show":
                 myLibro.show_books()
             elif cmd == "/find":
-                myLibro.find_book_by_index("1234")  # TODO: find book by index or title...
+                find()
             elif cmd == "/save":
                 myLibro.save_data_to_local_file()
             elif cmd == "/load":
