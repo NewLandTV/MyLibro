@@ -19,6 +19,8 @@ def add():
 
 def main():
     try:
+        myLibro.load_data_from_local_file()
+
         while True:
             print("=== 명령어 목록 ===")
             print("1. /add : 새 책을 추가합니다.")
@@ -41,6 +43,7 @@ def main():
                 myLibro.load_data_from_local_file()
             elif cmd == "/exit":
                 break
+            
             input()
     except KeyboardInterrupt:
         myLibro.save_data_to_local_file()
