@@ -6,3 +6,6 @@ data_dir = path.join(project_root, "data")
 
 def join(root: str, target: str) -> str:
     return path.join(root, target)
+
+def exists(pth: str):
+    return path.exists(pth)
