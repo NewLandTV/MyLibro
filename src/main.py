@@ -1,4 +1,5 @@
 from library import Library
+import os
 import sys
 
 myLibro = Library()
@@ -16,6 +17,14 @@ def add():
             return
         elif agree.upper() == "N":
             return
+        
+def exit():
+    while True:
+        agree = input("\t정말로 도서관 프로그램을 종료하시겠습니까? (y/n): ")
+        if agree.upper() == "Y":
+            sys.exit(0)
+        elif agree.upper() == "N":
+            return
 
 def main():
     try:
@@ -28,7 +37,8 @@ def main():
             print("3. /find : 특정 책을 찾습니다.")
             print("4. /save : 도서관 데이터를 저장합니다.")
             print("5. /load : 도서관 데이터를 불러옵니다.")
-            print("6. /exit : 도서관 프로그램을 종료합니다.")
+            print("6. /exit : 도서관 프로그램을 종료합니다. (저장 안 됨)")
+            print("7. /cls : 화면을 지웁니다.")
             cmd = input(">> ")
 
             if cmd == "/add":
@@ -42,8 +52,10 @@ def main():
             elif cmd == "/load":
                 myLibro.load_data_from_local_file()
             elif cmd == "/exit":
-                break
-            
+                exit()
+            elif cmd == "/cls":
+                os.system("cls")
+
             input()
     except KeyboardInterrupt:
         myLibro.save_data_to_local_file()
