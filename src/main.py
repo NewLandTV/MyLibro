@@ -37,7 +37,7 @@ def find():
             if index and books:
                 print(f"\t[{index}] 찾은 도서 {len(books)}권")
                 for book in books:
-                    print(f"\t제목: {book.title}, 저자: {book.author}")
+                    print(f"\t제목: {book.title}\n\t저자: {book.author}\n\t추가된 날짜: {book.added_date}\n")
         case 2:
             title = input("\t도서명: ") # TODO: 도서명으로 책 찾기
         case 3:
