@@ -35,6 +35,13 @@ class Library:
                 find.append(book)
         return index.find_korean_decimal_classification(idx), find
     
+    def find_book_by_title(self, title: str)-> List[Book]:
+        find = []
+        for book in self.books:
+            if book.title == title:
+                find.append(book)
+        return find
+    
     def save_data_to_local_file(self, filename="mylib.json"):
         data = []
         for book in self.books:

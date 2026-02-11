@@ -49,7 +49,14 @@ def find():
                 for book in books:
                     print(f"\t제목: {book.title}\n\t저자: {book.author}\n\t추가된 날짜: {book.added_date}\n\t회독: {book.num_read}회")
         case 2:
-            title = input("\t도서명: ") # TODO: 도서명으로 책 찾기
+            title = input("\t도서명: ")
+            books = myLibro.find_book_by_title(title)
+            if not books:
+                print(f"\t'{title}' 책을 찾을 수 없습니다.")
+            else:
+                print(f"\t'{title}' 찾은 도서 {len(books)}권")
+                for book in books:
+                    print(f"\t제목: {book.title}\n\t저자: {book.author}\n\t추가된 날짜: {book.added_date}\n\t회독: {book.num_read}회")
         case 3:
             author = input("\t저자: ")  # TODO: 저자로 책 찾기
 
@@ -72,25 +79,20 @@ def main():
                 cmd = input(">> ")
                 if cmd == "/add":
                     add()
-                    break
                 elif cmd == "/show":
                     myLibro.show_books()
-                    break
                 elif cmd == "/find":
                     find()
-                    break
                 elif cmd == "/save":
                     myLibro.save_data_to_local_file()
-                    break
                 elif cmd == "/load":
                     myLibro.load_data_from_local_file()
-                    break
                 elif cmd == "/exit":
                     exit()
-                    break
                 elif cmd == "/cls":
                     os.system("cls")
-                    break
+                elif cmd == "/read":
+                    os.system("cls")
     except KeyboardInterrupt:
         myLibro.save_data_to_local_file()
         print("'Ctrl + C' 감지, MyLibro 프로그램을 종료합니다.")
