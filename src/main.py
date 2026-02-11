@@ -42,23 +42,32 @@ def find():
 
     match method:
         case 1:
-            index = input("\t색인: ")
-            index, books = myLibro.find_book_by_index(index)
-            if index and books:
-                print(f"\t[{index}] 찾은 도서 {len(books)}권")
+            idx = input("\t색인: ")
+            books = myLibro.find_book_by_index(idx)
+            if not books:
+                print(f"\t[{idx}] 도서를 찾을 수 없습니다.")
+            else:
+                print(f"\t[{idx}] 찾은 도서: {len(books)}권")
                 for book in books:
                     print(f"\t제목: {book.title}\n\t저자: {book.author}\n\t추가된 날짜: {book.added_date}\n\t회독: {book.num_read}회")
         case 2:
             title = input("\t도서명: ")
             books = myLibro.find_book_by_title(title)
             if not books:
-                print(f"\t'{title}' 책을 찾을 수 없습니다.")
+                print(f"\t제목이 '{title}'인 도서를 찾을 수 없습니다.")
             else:
-                print(f"\t'{title}' 찾은 도서 {len(books)}권")
+                print(f"\t제목이 '{title}'인 도서: {len(books)}권")
                 for book in books:
                     print(f"\t제목: {book.title}\n\t저자: {book.author}\n\t추가된 날짜: {book.added_date}\n\t회독: {book.num_read}회")
         case 3:
             author = input("\t저자: ")  # TODO: 저자로 책 찾기
+            books = myLibro.find_book_by_author(author)
+            if not books:
+                print(f"\t저자가 '{author}'인 도서을 찾을 수 없습니다.")
+            else:
+                print(f"\t저자가 '{author}'인 도서: {len(books)}권")
+                for book in books:
+                    print(f"\t제목: {book.title}\n\t저자: {book.author}\n\t추가된 날짜: {book.added_date}\n\t회독: {book.num_read}회")
 
 def exit():
     while True:
@@ -71,10 +80,8 @@ def exit():
 def main():
     try:
         myLibro.load_data_from_local_file()
-
         while True:
             show_command_list()
-
             while True:
                 cmd = input(">> ")
                 if cmd == "/add":
@@ -90,8 +97,6 @@ def main():
                 elif cmd == "/exit":
                     exit()
                 elif cmd == "/cls":
-                    os.system("cls")
-                elif cmd == "/read":
                     os.system("cls")
     except KeyboardInterrupt:
         myLibro.save_data_to_local_file()

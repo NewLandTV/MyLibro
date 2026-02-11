@@ -28,17 +28,24 @@ class Library:
             status = "대여중" if book.is_borrowed else "대여 가능"
             print(f"[{book.index}] 제목: {book.title}, 저자: {book.author}, 추가된 날짜: {book.added_date}, 회독: {book.num_read}회, 상태: {status}")
 
-    def find_book_by_index(self, idx: str)-> Tuple[str | None, List[Book]]:
+    def find_book_by_index(self, idx: str) -> List[Book]:
         find = []
         for book in self.books:
             if book.index == idx:
                 find.append(book)
-        return index.find_korean_decimal_classification(idx), find
+        return find
     
-    def find_book_by_title(self, title: str)-> List[Book]:
+    def find_book_by_title(self, title: str) -> List[Book]:
         find = []
         for book in self.books:
             if book.title == title:
+                find.append(book)
+        return find
+    
+    def find_book_by_author(self, author: str) -> List[Book]:
+        find = []
+        for book in self.books:
+            if book.author == author:
                 find.append(book)
         return find
     
