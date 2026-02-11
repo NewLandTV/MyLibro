@@ -5,11 +5,12 @@ import path
 from typing import List, Tuple
 
 class Book:
-    def __init__(self, index: str, title: str, author: str, added_date = None, is_borrowed=False):
+    def __init__(self, index: str, title: str, author: str, added_date=None, num_read=0, is_borrowed=False):
         self.index = index
         self.title = title
         self.author = author
         self.added_date = added_date if added_date else datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.num_read = num_read
         self.is_borrowed = is_borrowed
 
 class Library:
@@ -25,7 +26,7 @@ class Library:
     def show_books(self):
         for book in self.books:
             status = "대여중" if book.is_borrowed else "대여 가능"
-            print(f"[{book.index}] 제목: {book.title}, 저자: {book.author}, 추가된 날짜: {book.added_date}, 상태: {status}")
+            print(f"[{book.index}] 제목: {book.title}, 저자: {book.author}, 추가된 날짜: {book.added_date}, 회독: {book.num_read}회, 상태: {status}")
 
     def find_book_by_index(self, idx: str)-> Tuple[str | None, List[Book]]:
         find = []
