@@ -15,6 +15,7 @@ def confirm(prompt: str) -> bool:
 
 def show_command_list():
     print("=== 명령어 목록 ===")
+    print("0. /help : 명령어 목록을 출력합니다.")
     print("1. /add : 새 책을 추가합니다.")
     print("2. /show : 도서관에 저장된 책을 보여줍니다.")
     print("3. /find : 특정 책을 찾습니다.")
@@ -170,7 +171,9 @@ def main():
             show_command_list()
             while True:
                 cmd = input(">> ")
-                if cmd == "/add":
+                if cmd == "/help":
+                    show_command_list()
+                elif cmd == "/add":
                     add()
                 elif cmd == "/show":
                     myLibro.show_books()
