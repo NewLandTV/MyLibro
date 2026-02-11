@@ -2,7 +2,7 @@ from datetime import datetime
 import index
 import json
 import path
-from typing import List, Tuple
+from typing import List
 
 class Book:
     def __init__(self, index: str, title: str, author: str, added_date=None, num_read=0, is_borrowed=False):
