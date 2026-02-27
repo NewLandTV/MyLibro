@@ -27,16 +27,29 @@ class APIServerInfo:
         print("API 서버 정보를 로컬 파일에서 불러왔습니다.")
 
 class ClientHandler(socketserver.BaseRequestHandler):
+    def load_library_data_from_local_file(self, filename="mylib.json") -> str:
+        pth = path.join(path.data_dir, filename)
+        if not path.exists(pth):
+            print(f"'{filename}' 파일을 찾을 수 없습니다.")
+            return
+        
+        with open(pth, "r", encoding="utf8") as f:
+            data = json.load(f)
+        return json.dumps(data, ensure_ascii=False)
+
     def handle(self):
         print(f"{self.client_address}에서 API 서버와 연결되었습니다.")
 
         while True:
-            data = self.request.recv(1024)
-            if data.decode() == "/exit":
+            data = self.request.recv(65536)
+            msg = data.decode()
+            if msg == "/exit":
                 print("해당 클라이언트가 서버와 연결이 종료되었습니다.")
                 self.request.close()
                 break
-            self.request.send(data)
+            if msg == "/get lib":
+                data = self.load_library_data_from_local_file()
+                self.request.send(f"json|{data}".encode())
 
 class APIServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
