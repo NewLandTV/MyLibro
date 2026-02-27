@@ -207,7 +207,6 @@ def main():
         myLibro.save_data_to_local_file()
         if api_server_info.use_api_server:
             api.shutdown_api_server()
-            api.close_api_server()
         print("'Ctrl + C' 감지, MyLibro 프로그램을 종료합니다.")
         sys.exit(0)
     

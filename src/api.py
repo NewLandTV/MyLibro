@@ -42,13 +42,14 @@ class APIServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
 
 started = False
-server = APIServer(("", 8230), ClientHandler)
+server = None
 
 def run_api_server():
-    global started
+    global started, server
     if started:
         shutdown_api_server()
     started = True
+    server = APIServer(("", 8230), ClientHandler)
     print("API 서버가 구동되고 있습니다...")
 
     thread = Thread(target=server.serve_forever)
@@ -57,13 +58,11 @@ def run_api_server():
     print("API 서버가 연결을 기다리고 있습니다...")
 
 def shutdown_api_server():
-    global started
+    global started, server
     if not started:
         return
     started = False
     server.shutdown()
     print("API 서버가 종료되고 있습니다...")
-
-def close_api_server():
     server.server_close()
     print("API 서버가 종료되었습니다.")
