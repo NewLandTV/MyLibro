@@ -1,3 +1,4 @@
+import api
 from library import Book, Library
 import os
 import sys
@@ -24,6 +25,7 @@ def show_command_list():
     print("6. /exit : 도서관 프로그램을 종료합니다. (저장 안 됨)")
     print("7. /cls : 화면을 지웁니다.")
     print("8. /read : 특정 도서의 회독 수를 변경합니다.")
+    print("9. /api : 외부 프로그램에서 접근할 수 있도록 API 서버를 실행 여부를 설정합니다.")
 
 def add():
     index = input("\t색인: ")
@@ -167,6 +169,11 @@ def read():
 def main():
     try:
         myLibro.load_data_from_local_file()
+        api_server_info = api.APIServerInfo()
+        api_server_info.load()
+        if api_server_info.use_api_server:
+            api.run_api_server()
+            
         while True:
             show_command_list()
             while True:
@@ -189,8 +196,18 @@ def main():
                     os.system("cls")
                 elif cmd == "/read":
                     read()
+                elif cmd == "/api":
+                    api_server_info.use_api_server = not api_server_info.use_api_server
+                    if api_server_info.use_api_server:
+                        api.run_api_server()
+                    else:
+                        api.shutdown_api_server()
+                    api_server_info.save()
     except KeyboardInterrupt:
         myLibro.save_data_to_local_file()
+        if api_server_info.use_api_server:
+            api.shutdown_api_server()
+            api.close_api_server()
         print("'Ctrl + C' 감지, MyLibro 프로그램을 종료합니다.")
         sys.exit(0)
     
