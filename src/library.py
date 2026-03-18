@@ -24,7 +24,8 @@ class Library:
         print(f"[{idx}] '{title}' 도서가 등록되었습니다.")
 
     def show_books(self):
-        for book in self.books:
+        book_list = sorted(self.books, key=lambda book: book.index)
+        for book in book_list:
             status = "대여중" if book.is_borrowed else "대여 가능"
             print(f"[{book.index}] 제목: {book.title}, 저자: {book.author}, 추가된 날짜: {book.added_date}, 회독: {book.num_read}회, 상태: {status}")
 
