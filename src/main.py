@@ -26,6 +26,7 @@ def show_command_list():
     print("7. /cls : 화면을 지웁니다.")
     print("8. /read : 특정 도서의 회독 수를 변경합니다.")
     print("9. /api : 외부 프로그램에서 접근할 수 있도록 API 서버를 실행 여부를 설정합니다.")
+    print("10. /circulate : 도서관에 저장된 특정 책을 빌리거나 반납합니다.")
 
 def add():
     index = input("\t색인: ")
@@ -166,6 +167,52 @@ def read():
             if confirm("\t정말로 회독 수를 초기화하시겠습니까? (되돌릴 수 없습니다.)"):
                 books[number].num_read = 0
 
+def circulate():
+    """
+    도서 대출 및 반납 명령을 처리합니다.
+    """
+    books = find(False)
+    if not books:
+        return
+    
+    for i in range(len(books)):
+        status = "대여중" if books[i].is_borrowed else "대여 가능"
+        print(f"\t{i + 1}. [{books[i].index}] 제목: '{books[i].title}', 저자: '{books[i].author}', 상태: {status}")
+    
+    while True:
+        number = input("\t검색된 도서 중 대출 또는 반납을 원하는 도서의 번호를 쓰시오: ")
+
+        if number.isdigit() and 1 <= int(number) <= len(books):
+            number = int(number) - 1
+            break
+        
+    status = "대여중" if books[number].is_borrowed else "대여 가능"
+    print(f"\t'[{books[number].index}] {books[number].title}', 선택한 도서의 현재 상태: {status}")
+
+    while True:
+        print("\t대출 및 반납 작업을 번호로 쓰시오.")
+        print("\t1. 대출")
+        print("\t2. 반납")
+        method = input("\t번호 입력: ")
+
+        if method.isdigit() and 1 <= int(method) <= 2:
+            method = int(method)
+            break
+        
+    match method:
+        case 1:
+            if books[number].is_borrowed:
+                print(f"\t이미 대출한 도서를 대출할 수 없습니다.")
+            else:
+                books[number].is_borrowed = True
+                print(f"\t해당 도서를 대출했습니다.")
+        case 2:
+            if books[number].is_borrowed:
+                books[number].is_borrowed = False
+                print(f"\t해당 도서를 반납했습니다.")
+            else:
+                print(f"\t이미 반납한 도서를 반납할 수 없습니다.")
+
 def main():
     try:
         myLibro.load_data_from_local_file()
@@ -203,6 +250,8 @@ def main():
                     else:
                         api.shutdown_api_server()
                     api_server_info.save()
+                elif cmd == "/circulate":
+                    circulate()
     except KeyboardInterrupt:
         myLibro.save_data_to_local_file()
         if api_server_info.use_api_server:
